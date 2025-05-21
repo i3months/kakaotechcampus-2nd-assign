@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import type { Pokemon } from "@/types/Pokemon";
+import { useNavigate } from "react-router-dom";
 
 type Props = {
   pokemon: Pokemon;
@@ -7,10 +8,12 @@ type Props = {
 };
 
 export default function PokemonCard({ pokemon, onAdd }: Props) {
+  const navigate = useNavigate();
+
   return (
-    <Card>
+    <Card onClick={() => navigate(`/detail?id=${pokemon.id}`)}>
       <Image src={pokemon.image} alt={pokemon.name} />
-      <Number>#{String(pokemon.id).padStart(3, "0")}</Number>
+      <PokemonNumber>#{String(pokemon.id).padStart(3, "0")}</PokemonNumber>
       <Name>{pokemon.name}</Name>
       <AddButton onClick={() => onAdd(pokemon)}>Add to Deck</AddButton>
     </Card>
@@ -44,7 +47,7 @@ const Image = styled.img`
   }
 `;
 
-const Number = styled.p`
+const PokemonNumber = styled.p`
   margin: 0.5rem 0 0;
   font-weight: bold;
   color: #888;
