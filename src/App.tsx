@@ -1,3 +1,6 @@
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import { useState } from "react";
 import AppRouter from "@/routes/Router";
 import type { Pokemon } from "@/types/Pokemon";
@@ -8,11 +11,11 @@ function App() {
 
   const handleAdd = (pokemon: Pokemon) => {
     if (selectedPokemons.find((p) => p.id === pokemon.id)) {
-      alert("Already picked.");
+      toast.warning("Already picked.");
       return;
     }
     if (selectedPokemons.length >= 6) {
-      alert("Party can't take more than 6 pokemon.");
+      toast.error("Party can't take more than 6 pokemon.");
       return;
     }
     setSelectedPokemons([...selectedPokemons, pokemon]);
@@ -23,11 +26,14 @@ function App() {
   };
 
   return (
-    <AppRouter
-      selectedPokemons={selectedPokemons}
-      onAdd={handleAdd}
-      onRemove={handleRemove}
-    />
+    <>
+      <AppRouter
+        selectedPokemons={selectedPokemons}
+        onAdd={handleAdd}
+        onRemove={handleRemove}
+      />
+      <ToastContainer position="top-center" autoClose={2000} />
+    </>
   );
 }
 
