@@ -22,7 +22,7 @@ export default function Detail() {
 
   return (
     <Container>
-      <BackButton onClick={() => navigate(-1)}>← 뒤로 가기</BackButton>
+      <BackButton onClick={() => navigate(-1)}>← Go Back</BackButton>
 
       <Card>
         <Image src={pokemon.image} alt={pokemon.name} />

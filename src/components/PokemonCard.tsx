@@ -15,7 +15,14 @@ export default function PokemonCard({ pokemon, onAdd }: Props) {
       <Image src={pokemon.image} alt={pokemon.name} />
       <PokemonNumber>#{String(pokemon.id).padStart(3, "0")}</PokemonNumber>
       <Name>{pokemon.name}</Name>
-      <AddButton onClick={() => onAdd(pokemon)}>Add to Deck</AddButton>
+      <AddButton
+        onClick={(e) => {
+          e.stopPropagation();
+          onAdd(pokemon);
+        }}
+      >
+        Add to Deck
+      </AddButton>
     </Card>
   );
 }
