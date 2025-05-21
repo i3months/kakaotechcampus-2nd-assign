@@ -1,12 +1,17 @@
 import styled from "styled-components";
-import { MOCK_DATA } from "@/data/MOCK_DATA";
+import type { Pokemon } from "@/types/Pokemon";
 import PokemonCard from "./PokemonCard";
 
-export default function PokemonList() {
+type Props = {
+  pokemons: Pokemon[];
+  onAdd: (pokemon: Pokemon) => void;
+};
+
+export default function PokemonList({ pokemons, onAdd }: Props) {
   return (
     <Grid>
-      {MOCK_DATA.map((pokemon) => (
-        <PokemonCard key={pokemon.id} pokemon={pokemon} />
+      {pokemons.map((pokemon) => (
+        <PokemonCard key={pokemon.id} pokemon={pokemon} onAdd={onAdd} />
       ))}
     </Grid>
   );

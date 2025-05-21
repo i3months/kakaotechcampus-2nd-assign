@@ -1,18 +1,18 @@
-// src/components/PokemonCard.tsx
 import styled from "styled-components";
 import type { Pokemon } from "@/types/Pokemon";
 
 type Props = {
   pokemon: Pokemon;
+  onAdd: (pokemon: Pokemon) => void;
 };
 
-export default function PokemonCard({ pokemon }: Props) {
+export default function PokemonCard({ pokemon, onAdd }: Props) {
   return (
     <Card>
       <Image src={pokemon.image} alt={pokemon.name} />
       <Number>#{String(pokemon.id).padStart(3, "0")}</Number>
       <Name>{pokemon.name}</Name>
-      <AddButton>추가</AddButton>
+      <AddButton onClick={() => onAdd(pokemon)}>Add to Deck</AddButton>
     </Card>
   );
 }
@@ -23,11 +23,25 @@ const Card = styled.div`
   padding: 1rem;
   text-align: center;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+  cursor: pointer;
+
+  &:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+  }
 `;
 
 const Image = styled.img`
   width: 80px;
   height: 80px;
+  transition: transform 0.2s ease;
+
+  ${Card}:hover & {
+    transform: scale(1.05);
+  }
 `;
 
 const Number = styled.p`
