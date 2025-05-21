@@ -1,33 +1,20 @@
 import styled from "styled-components";
-import { useState } from "react";
 import type { Pokemon } from "@/types/Pokemon";
 import { MOCK_DATA } from "@/data/MOCK_DATA";
 import Dashboard from "@/components/Dashboard";
 import PokemonList from "@/components/PokemonList";
 
-export default function Dex() {
-  const [selectedPokemons, setSelectedPokemons] = useState<Pokemon[]>([]);
+type Props = {
+  selectedPokemons: Pokemon[];
+  onAdd: (pokemon: Pokemon) => void;
+  onRemove: (id: number) => void;
+};
 
-  const handleAddPokemon = (pokemon: Pokemon) => {
-    if (selectedPokemons.find((p) => p.id === pokemon.id)) {
-      alert("Already picked.");
-      return;
-    }
-    if (selectedPokemons.length >= 6) {
-      alert("Party can't take more than 6 pokemon.");
-      return;
-    }
-    setSelectedPokemons([...selectedPokemons, pokemon]);
-  };
-
-  const handleRemovePokemon = (id: number) => {
-    setSelectedPokemons(selectedPokemons.filter((p) => p.id !== id));
-  };
-
+export default function Dex({ selectedPokemons, onAdd, onRemove }: Props) {
   return (
     <Container>
-      <Dashboard pokemons={selectedPokemons} onRemove={handleRemovePokemon} />
-      <PokemonList pokemons={MOCK_DATA} onAdd={handleAddPokemon} />
+      <Dashboard pokemons={selectedPokemons} onRemove={onRemove} />
+      <PokemonList pokemons={MOCK_DATA} onAdd={onAdd} />
     </Container>
   );
 }
