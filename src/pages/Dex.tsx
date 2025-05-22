@@ -5,11 +5,11 @@ import PokemonList from "@/components/PokemonList";
 import { usePokemonContext } from "@/contexts/PokemonContext";
 
 export default function Dex() {
-  const { selectedPokemons, addPokemon, removePokemon } = usePokemonContext();
+  const { addPokemon } = usePokemonContext();
 
   return (
     <Container>
-      <Dashboard pokemons={selectedPokemons} onRemove={removePokemon} />
+      <Dashboard />
       <PokemonList pokemons={MOCK_DATA} onAdd={addPokemon} />
     </Container>
   );
