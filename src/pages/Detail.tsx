@@ -2,12 +2,18 @@ import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { MOCK_DATA } from "@/data/MOCK_DATA";
 import type { Pokemon } from "@/types/Pokemon";
+import { toast } from "react-toastify";
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
 }
 
-export default function Detail() {
+type Props = {
+  selectedPokemons: Pokemon[];
+  onAdd: (p: Pokemon) => void;
+};
+
+export default function Detail({ selectedPokemons, onAdd }: Props) {
   const query = useQuery();
   const idString = query.get("id");
   const id = idString ? Number(idString) : null;
@@ -18,7 +24,20 @@ export default function Detail() {
     (p) => p.id === Number(id)
   );
 
-  if (!pokemon) return <div>포켓몬을 찾을 수 없습니다.</div>;
+  if (!pokemon) return <div>Can't find that pokemon.</div>;
+
+  const handleAdd = () => {
+    if (selectedPokemons.find((p) => p.id === pokemon.id)) {
+      toast.warning("Already picked.");
+      return;
+    }
+    if (selectedPokemons.length >= 6) {
+      toast.error("Party can't take more than 6 pokemon.");
+      return;
+    }
+    onAdd(pokemon);
+    toast.success(`${pokemon.name} have added to your deck!`);
+  };
 
   return (
     <Container>
@@ -30,10 +49,26 @@ export default function Detail() {
         <Name>{pokemon.name}</Name>
         <Type>Type: {pokemon.type}</Type>
         <Description>{pokemon.description}</Description>
+        <AddButton onClick={handleAdd}>+ Add to Deck</AddButton>
       </Card>
     </Container>
   );
 }
+
+const AddButton = styled.button`
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 8px;
+  background-color: #4caf50;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #3a9440;
+  }
+`;
 
 const Container = styled.div`
   max-width: 600px;

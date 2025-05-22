@@ -29,7 +29,10 @@ export default function AppRouter({
             />
           }
         />
-        <Route path="/detail" element={<Detail />} />
+        <Route
+          path="/detail"
+          element={<Detail selectedPokemons={selectedPokemons} onAdd={onAdd} />}
+        />
       </Routes>
     </BrowserRouter>
   );
