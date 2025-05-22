@@ -1,42 +1,24 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { MOCK_DATA } from "@/data/MOCK_DATA";
-import type { Pokemon } from "@/types/Pokemon";
-import { toast } from "react-toastify";
+import { usePokemonContext } from "@/contexts/PokemonContext";
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
 }
 
-type Props = {
-  selectedPokemons: Pokemon[];
-  onAdd: (p: Pokemon) => void;
-};
-
-export default function Detail({ selectedPokemons, onAdd }: Props) {
+export default function Detail() {
   const query = useQuery();
-  const idString = query.get("id");
-  const id = idString ? Number(idString) : null;
-
+  const id = Number(query.get("id"));
   const navigate = useNavigate();
 
-  const pokemon: Pokemon | undefined = MOCK_DATA.find(
-    (p) => p.id === Number(id)
-  );
+  const { addPokemon } = usePokemonContext();
 
-  if (!pokemon) return <div>Can't find that pokemon.</div>;
+  const pokemon = MOCK_DATA.find((p) => p.id === id);
+  if (!pokemon) return <div>Can't find Pokemon.</div>;
 
   const handleAdd = () => {
-    if (selectedPokemons.find((p) => p.id === pokemon.id)) {
-      toast.warning("Already picked.");
-      return;
-    }
-    if (selectedPokemons.length >= 6) {
-      toast.error("Party can't take more than 6 pokemon.");
-      return;
-    }
-    onAdd(pokemon);
-    toast.success(`${pokemon.name} have added to your deck!`);
+    addPokemon(pokemon);
   };
 
   return (

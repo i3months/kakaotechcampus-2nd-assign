@@ -1,22 +1,18 @@
-// src/components/Dashboard.tsx
 import styled from "styled-components";
-import type { Pokemon } from "@/types/Pokemon";
+import { usePokemonContext } from "@/contexts/PokemonContext";
 
-type Props = {
-  pokemons: Pokemon[];
-  onRemove: (id: number) => void;
-};
+export default function Dashboard() {
+  const { selectedPokemons, removePokemon } = usePokemonContext();
 
-export default function Dashboard({ pokemons, onRemove }: Props) {
   return (
     <Wrapper>
-      <Title>Pokemon Deck ({pokemons.length}/6)</Title>
+      <Title>Pokemon Deck ({selectedPokemons.length}/6)</Title>
       <CardList>
-        {pokemons.map((pokemon) => (
+        {selectedPokemons.map((pokemon) => (
           <Card key={pokemon.id}>
             <Image src={pokemon.image} alt={pokemon.name} />
             <Name>{pokemon.name}</Name>
-            <RemoveButton onClick={() => onRemove(pokemon.id)}>
+            <RemoveButton onClick={() => removePokemon(pokemon.id)}>
               Remove
             </RemoveButton>
           </Card>
