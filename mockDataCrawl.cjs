@@ -1,4 +1,3 @@
-// generate_mock_data.js
 const fs = require("fs");
 const axios = require("axios");
 
@@ -7,7 +6,7 @@ const MAX_POKEMON = 151;
 async function fetchPokemon(id) {
   const [basicRes, speciesRes] = await Promise.all([
     axios.get(`https://pokeapi.co/api/v2/pokemon/${id}`),
-    axios.get(`https://pokeapi.co/api/v2/pokemon-species/${id}`)
+    axios.get(`https://pokeapi.co/api/v2/pokemon-species/${id}`),
   ]);
 
   return {
@@ -24,8 +23,8 @@ function capitalize(str) {
 }
 
 function getEnglishDescription(entries) {
-  const entry = entries.find(e => e.language.name === "en");
-  return entry ? entry.flavor_text.replace(/\f/g, ' ').replace(/\n/g, ' ') : "No description.";
+  const entry = entries.find((e) => e.language.name === "en");
+  return entry ? entry.flavor_text.replace(/\f/g, " ").replace(/\n/g, " ") : "";
 }
 
 async function main() {
@@ -47,7 +46,6 @@ export const MOCK_DATA: Pokemon[] = ${JSON.stringify(results, null, 2)};
 `;
 
   fs.writeFileSync("./src/data/MOCK_DATA.ts", output, "utf-8");
-  console.log("MOCK_DATA.ts 생성 완료!");
 }
 
 main();
